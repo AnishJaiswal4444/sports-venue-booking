@@ -1,0 +1,751 @@
+{
+  "info": {
+    "_postman_id": "baebb0c0-e676-4da9-9b67-90ff8eb48008",
+    "name": "sports-venue-booking",
+    "description": "Complete API collection for Sports Venue Booking System with realistic test data and scenarios",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Sports",
+      "description": "Sports data fetched from external API",
+      "item": [
+        {
+          "name": "Get All Sports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/sports",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "sports"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sport by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/sports/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "sports", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sport By Sport-ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/sports/sport-id/7020104",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "sports", "sport-id", "7020104"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sync Sports from External API",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/sports/sync",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "sports", "sync"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Venues (Required)",
+      "description": "Venue management endpoints",
+      "item": [
+        {
+          "name": "Create Venue - Andheri Complex",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Andheri Sports Complex\",\n  \"location\": \"Andheri East, Mumbai, Maharashtra\",\n  \"description\": \"Multi-sport facility with cricket ground, football field, and badminton courts\",\n  \"contactPhone\": \"+91-9876543210\",\n  \"contactEmail\": \"contact@andherisports.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Venue - Juhu Arena",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juhu Football Arena\",\n  \"location\": \"Juhu, Mumbai, Maharashtra\",\n  \"description\": \"Premium football stadium with floodlights\",\n  \"contactPhone\": \"+91-9876543211\",\n  \"contactEmail\": \"info@juhufootball.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Venue - Bandra Cricket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Bandra Cricket Ground\",\n  \"location\": \"Bandra West, Mumbai, Maharashtra\",\n  \"description\": \"Professional cricket ground with practice nets\",\n  \"contactPhone\": \"+91-9876543212\",\n  \"contactEmail\": \"bookings@bandracricket.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Venue - Powai Tennis",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Powai Tennis Club\",\n  \"location\": \"Powai, Mumbai, Maharashtra\",\n  \"description\": \"Tennis courts with coaching facilities\",\n  \"contactPhone\": \"+91-9876543213\",\n  \"contactEmail\": \"powaitennis@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Venues",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Venue by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active Venues",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/active",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "active"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Venue",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Andheri Sports Complex - Updated\",\n  \"location\": \"Andheri East, Mumbai, Maharashtra, India\",\n  \"description\": \"Updated: Multi-sport facility with swimming pool\",\n  \"contactPhone\": \"+91-9876543210\",\n  \"contactEmail\": \"newcontact@andherisports.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Soft Delete Venue",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1/deactivate",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1", "deactivate"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hard Delete Venue",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Slots (Required)",
+      "description": "Time slot management with overlap detection",
+      "item": [
+        {
+          "name": "Create Slot - Cricket 6-8 AM",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sportId\": 3,\n  \"startTime\": \"2026-01-15T06:00:00\",\n  \"endTime\": \"2026-01-15T08:00:00\",\n  \"price\": 2000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1/slots",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1", "slots"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Slot - Cricket 8-10 AM",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sportId\": 3,\n  \"startTime\": \"2026-01-15T08:00:00\",\n  \"endTime\": \"2026-01-15T10:00:00\",\n  \"price\": 2500.00\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1/slots",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1", "slots"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Slot - Football 6-8 AM (Same Time)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sportId\": 4,\n  \"startTime\": \"2026-01-15T06:00:00\",\n  \"endTime\": \"2026-01-15T08:00:00\",\n  \"price\": 3000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1/slots",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1", "slots"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Slot - Badminton 6-8 PM",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sportId\": 1,\n  \"startTime\": \"2026-01-15T18:00:00\",\n  \"endTime\": \"2026-01-15T20:00:00\",\n  \"price\": 1500.00\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1/slots",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1", "slots"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Slots for Venue",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1/slots",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1", "slots"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Slot by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/slots/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "slots", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Slot",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sportId\": 3,\n  \"startTime\": \"2026-01-15T07:00:00\",\n  \"endTime\": \"2026-01-15T09:00:00\",\n  \"price\": 2200.00\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/slots/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "slots", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Slot",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/slots/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "slots", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Availability (Required)",
+      "description": "Search available venues with filters",
+      "item": [
+        {
+          "name": "Search All Sports - Full Day",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/available?startTime=2026-01-15T00:00:00&endTime=2026-01-15T23:59:59",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "available"],
+              "query": [
+                {
+                  "key": "startTime",
+                  "value": "2026-01-15T00:00:00"
+                },
+                {
+                  "key": "endTime",
+                  "value": "2026-01-15T23:59:59"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Cricket - Morning",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/available?sportId=3&startTime=2026-01-15T06:00:00&endTime=2026-01-15T12:00:00",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "available"],
+              "query": [
+                {
+                  "key": "sportId",
+                  "value": "3"
+                },
+                {
+                  "key": "startTime",
+                  "value": "2026-01-15T06:00:00"
+                },
+                {
+                  "key": "endTime",
+                  "value": "2026-01-15T12:00:00"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Football - Evening",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/available?sportId=4&startTime=2026-01-15T16:00:00&endTime=2026-01-15T20:00:00",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "available"],
+              "query": [
+                {
+                  "key": "sportId",
+                  "value": "4"
+                },
+                {
+                  "key": "startTime",
+                  "value": "2026-01-15T16:00:00"
+                },
+                {
+                  "key": "endTime",
+                  "value": "2026-01-15T20:00:00"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. Bookings (Required)",
+      "description": "Booking management with double-booking prevention",
+      "item": [
+        {
+          "name": "Create Booking - User 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slotId\": 1,\n  \"customerName\": \"Hardik Sharma\",\n  \"customerEmail\": \"hardik@example.com\",\n  \"customerPhone\": \"+91-9876543210\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/bookings",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Booking - User 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slotId\": 2,\n  \"customerName\": \"Priya Patel\",\n  \"customerEmail\": \"priya@example.com\",\n  \"customerPhone\": \"+91-9876543211\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/bookings",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Booking - User 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slotId\": 3,\n  \"customerName\": \"Rahul Kumar\",\n  \"customerEmail\": \"rahul@example.com\",\n  \"customerPhone\": \"+91-9876543212\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/bookings",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/bookings",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Booking by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/bookings/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer Bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/bookings/customer/hardik@example.com",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings", "customer", "hardik@example.com"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/bookings/1/cancel",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings", "1", "cancel"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "6. Error Test Cases",
+      "description": "Test validation and error handling",
+      "item": [
+        {
+          "name": "Test - Overlapping Slot (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sportId\": 3,\n  \"startTime\": \"2026-01-15T07:00:00\",\n  \"endTime\": \"2026-01-15T09:00:00\",\n  \"price\": 2000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1/slots",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1", "slots"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test - Double Booking (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slotId\": 1,\n  \"customerName\": \"Test User\",\n  \"customerEmail\": \"test@example.com\",\n  \"customerPhone\": \"+91-9999999999\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/bookings",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test - Invalid Time (Should Fail)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sportId\": 3,\n  \"startTime\": \"2026-01-15T10:00:00\",\n  \"endTime\": \"2026-01-15T08:00:00\",\n  \"price\": 2000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1/slots",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1", "slots"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test - Update Booked Slot (Should Fail)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sportId\": 3,\n  \"startTime\": \"2026-01-15T07:00:00\",\n  \"endTime\": \"2026-01-15T09:00:00\",\n  \"price\": 2500.00\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/slots/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "slots", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test - Delete Booked Slot (Should Fail)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/slots/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "slots", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test - Cancel Already Cancelled (Should Fail)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/bookings/1/cancel",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "bookings", "1", "cancel"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Test - Delete Venue with Slots (Should Fail)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/api/venues/1",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "venues", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
