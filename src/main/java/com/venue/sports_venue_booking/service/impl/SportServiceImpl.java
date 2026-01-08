@@ -6,9 +6,10 @@ import com.venue.sports_venue_booking.entity.Sport;
 import com.venue.sports_venue_booking.exception.ResourceNotFoundException;
 import com.venue.sports_venue_booking.repository.SportRepository;
 import com.venue.sports_venue_booking.service.SportService;
-import com.venue.sports_venue_booking.service.SportsApiClient;
+import com.venue.sports_venue_booking.service.impl.SportsApiClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +20,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 public class SportServiceImpl implements SportService {
 
     private final SportRepository sportRepository;
     private final SportsApiClient sportsApiClient;
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -31,7 +32,7 @@ public class SportServiceImpl implements SportService {
         log.info("Fetching all sports from database");
         return sportRepository.findAll()
                 .stream()
-                .map(this::mapToResponse)
+                .map(sport -> modelMapper.map(sport, SportResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -41,7 +42,7 @@ public class SportServiceImpl implements SportService {
         log.info("Fetching sport with id: {}", id);
         Sport sport = sportRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sport", "id", id));
-        return mapToResponse(sport);
+        return modelMapper.map(sport, SportResponse.class);
     }
 
     @Override
@@ -50,10 +51,11 @@ public class SportServiceImpl implements SportService {
         log.info("Fetching sport with sportId: {}", sportId);
         Sport sport = sportRepository.findBySportId(sportId)
                 .orElseThrow(() -> new ResourceNotFoundException("Sport", "sportId", sportId));
-        return mapToResponse(sport);
+        return modelMapper.map(sport, SportResponse.class);
     }
 
     @Override
+    @Transactional
     public int syncSportsFromExternalApi() {
         log.info("Starting sports synchronization from external API");
 
@@ -67,12 +69,10 @@ public class SportServiceImpl implements SportService {
         int syncedCount = 0;
         for (SportsApiResponse.SportData sportData : apiResponse.getData()) {
             try {
-                // Check if sport already exists
                 Sport sport = sportRepository.findBySportId(String.valueOf(sportData.getSportId()))
                         .orElse(null);
 
                 if (sport == null) {
-                    // Create new sport
                     sport = Sport.builder()
                             .sportId(String.valueOf(sportData.getSportId()))
                             .sportCode(sportData.getSportCode())
@@ -82,7 +82,6 @@ public class SportServiceImpl implements SportService {
                             .build();
                     log.info("Creating new sport: {}", sportData.getSportName());
                 } else {
-                    // Update existing sport
                     sport.setSportCode(sportData.getSportCode());
                     sport.setSportName(sportData.getSportName());
                     sport.setLastSyncedAt(LocalDateTime.now());
@@ -98,19 +97,5 @@ public class SportServiceImpl implements SportService {
 
         log.info("Successfully synced {} sports from external API", syncedCount);
         return syncedCount;
-    }
-
-    private SportResponse mapToResponse(Sport sport) {
-        return SportResponse.builder()
-                .id(sport.getId())
-                .sportId(sport.getSportId())
-                .sportCode(sport.getSportCode())
-                .sportName(sport.getSportName())
-                .description(sport.getDescription())
-                .lastSyncedAt(sport.getLastSyncedAt())
-                .isActive(sport.getIsActive())
-                .createdAt(sport.getCreatedAt())
-                .updatedAt(sport.getUpdatedAt())
-                .build();
     }
 }
