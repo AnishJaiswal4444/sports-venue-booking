@@ -58,6 +58,6 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
             @Param("now") LocalDateTime now
     );
 
-    @Query("SELECT COUNT(s) FROM Slot s WHERE s.venue.id = :venueId AND s.isBooked = true")
-    long countActiveBookingsByVenue(@Param("venueId") Long venueId);
+    @Query("SELECT COUNT(s) FROM Slot s WHERE s.venue.id = :venueId")
+    long countSlotsByVenue(@Param("venueId") Long venueId);
 }

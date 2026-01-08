@@ -5,6 +5,8 @@ import com.venue.sports_venue_booking.dto.response.VenueResponse;
 import com.venue.sports_venue_booking.entity.Venue;
 import com.venue.sports_venue_booking.exception.DuplicateResourceException;
 import com.venue.sports_venue_booking.exception.ResourceNotFoundException;
+import com.venue.sports_venue_booking.exception.VenueDeletionException;
+import com.venue.sports_venue_booking.repository.SlotRepository;
 import com.venue.sports_venue_booking.repository.VenueRepository;
 import com.venue.sports_venue_booking.service.VenueService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class VenueServiceImpl implements VenueService {
 
     private final VenueRepository venueRepository;
     private final ModelMapper modelMapper;
+    private final SlotRepository slotRepository;
 
     @Override
     @Transactional
@@ -99,6 +102,14 @@ public class VenueServiceImpl implements VenueService {
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
 
+        long totalSlots = slotRepository.countSlotsByVenue(id);
+
+        if (totalSlots > 0) {
+            throw new VenueDeletionException(
+                    String.format("Cannot delete venue. It has %d slot(s). " +
+                            "Please delete all slots first.", totalSlots)
+            );
+        }
         venueRepository.delete(venue);
         log.info("Venue deleted successfully with id: {}", id);
     }

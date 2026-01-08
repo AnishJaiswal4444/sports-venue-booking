@@ -77,6 +77,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(VenueDeletionException.class)
+    public ResponseEntity<ErrorResponse> handleVenueHasActiveBookingsException(
+            VenueDeletionException ex) {
+        ErrorResponse error = ErrorResponse.builder()
+                .success(false)
+                .message(ex.getMessage())
+                .error("VENUE_HAS_ACTIVE_BOOKINGS")
+                .timestamp(LocalDateTime.now())
+                .build();
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
         ErrorResponse error = ErrorResponse.builder()
