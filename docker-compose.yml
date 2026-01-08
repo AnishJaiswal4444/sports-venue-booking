@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: venue-booking-mysql
+    environment:
+      MYSQL_DATABASE: venue_booking
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - venue-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: venue-booking-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/venue_booking
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123
+      SPORTS_API_URL: https://stapubox.com/sportslist/
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - venue-network
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+
+networks:
+  venue-network:
+    driver: bridge
