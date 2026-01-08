@@ -9,6 +9,7 @@ import com.venue.sports_venue_booking.repository.VenueRepository;
 import com.venue.sports_venue_booking.service.VenueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,30 +22,23 @@ import java.util.stream.Collectors;
 public class VenueServiceImpl implements VenueService {
 
     private final VenueRepository venueRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
     public VenueResponse createVenue(VenueRequest request) {
         log.info("Creating venue with name: {}", request.getName());
 
-        // Check if venue name already exists
         if (venueRepository.existsByName(request.getName())) {
             throw new DuplicateResourceException("Venue", "name", request.getName());
         }
 
-        Venue venue = Venue.builder()
-                .name(request.getName())
-                .location(request.getLocation())
-                .description(request.getDescription())
-                .contactPhone(request.getContactPhone())
-                .contactEmail(request.getContactEmail())
-                .isActive(request.getIsActive() != null ? request.getIsActive() : true)
-                .build();
+        Venue venue = modelMapper.map(request, Venue.class);
 
         Venue savedVenue = venueRepository.save(venue);
         log.info("Venue created successfully with id: {}", savedVenue.getId());
 
-        return mapToResponse(savedVenue);
+        return modelMapper.map(savedVenue, VenueResponse.class);
     }
 
     @Override
@@ -53,7 +47,7 @@ public class VenueServiceImpl implements VenueService {
         log.info("Fetching venue with id: {}", id);
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
-        return mapToResponse(venue);
+        return modelMapper.map(venue, VenueResponse.class);
     }
 
     @Override
@@ -62,7 +56,7 @@ public class VenueServiceImpl implements VenueService {
         log.info("Fetching all venues");
         return venueRepository.findAll()
                 .stream()
-                .map(this::mapToResponse)
+                .map(venue -> modelMapper.map(venue, VenueResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -72,7 +66,7 @@ public class VenueServiceImpl implements VenueService {
         log.info("Fetching active venues");
         return venueRepository.findAllActiveVenues()
                 .stream()
-                .map(this::mapToResponse)
+                .map(venue -> modelMapper.map(venue, VenueResponse.class))
                 .collect(Collectors.toList());
     }
 
@@ -84,23 +78,17 @@ public class VenueServiceImpl implements VenueService {
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
 
-        // Check if name is being changed and if new name already exists
         if (!venue.getName().equals(request.getName()) &&
                 venueRepository.existsByNameAndIdNot(request.getName(), id)) {
             throw new DuplicateResourceException("Venue", "name", request.getName());
         }
 
-        venue.setName(request.getName());
-        venue.setLocation(request.getLocation());
-        venue.setDescription(request.getDescription());
-        venue.setContactPhone(request.getContactPhone());
-        venue.setContactEmail(request.getContactEmail());
-        venue.setIsActive(request.getIsActive());
+        modelMapper.map(request, venue);
 
         Venue updatedVenue = venueRepository.save(venue);
         log.info("Venue updated successfully with id: {}", updatedVenue.getId());
 
-        return mapToResponse(updatedVenue);
+        return modelMapper.map(updatedVenue, VenueResponse.class);
     }
 
     @Override
@@ -110,9 +98,6 @@ public class VenueServiceImpl implements VenueService {
 
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Venue", "id", id));
-
-        // TODO: Later check if venue has active slots/bookings before deleting
-        // For now, just delete directly
 
         venueRepository.delete(venue);
         log.info("Venue deleted successfully with id: {}", id);
@@ -130,19 +115,5 @@ public class VenueServiceImpl implements VenueService {
         venueRepository.save(venue);
 
         log.info("Venue soft deleted (marked as inactive) with id: {}", id);
-    }
-
-    private VenueResponse mapToResponse(Venue venue) {
-        return VenueResponse.builder()
-                .id(venue.getId())
-                .name(venue.getName())
-                .location(venue.getLocation())
-                .description(venue.getDescription())
-                .contactPhone(venue.getContactPhone())
-                .contactEmail(venue.getContactEmail())
-                .isActive(venue.getIsActive())
-                .createdAt(venue.getCreatedAt())
-                .updatedAt(venue.getUpdatedAt())
-                .build();
     }
 }

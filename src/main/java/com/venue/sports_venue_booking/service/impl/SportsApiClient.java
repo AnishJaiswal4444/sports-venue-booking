@@ -1,4 +1,4 @@
-package com.venue.sports_venue_booking.service;
+package com.venue.sports_venue_booking.service.impl;
 
 import com.venue.sports_venue_booking.dto.external.SportsApiResponse;
 import lombok.extern.slf4j.Slf4j;
